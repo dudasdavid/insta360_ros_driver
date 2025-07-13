@@ -1,5 +1,14 @@
 # insta360_ros_driver
 
+Package modified for Insta360 Air!
+- Equirectangular calibration added
+- equirectangular.cpp handles camera name (from parameter)
+- Camera handling is done by usb_cam default ROS driver package
+- camera.launch.py launches both usb_cam nodes and equirectangular transformation
+- Video device has to be updated in params_1.yaml file e.g. "/dev/video5"
+
+---
+
 A ROS driver for the Insta360 cameras. This driver is tested on Ubuntu 22.04 with ROS2 Humble. The driver has also been verified on the Insta360 X2 and X3 cameras. The following resolutions are available, all at 30 FPS.
 - 3840 x 1920
 - 2560 x 1280

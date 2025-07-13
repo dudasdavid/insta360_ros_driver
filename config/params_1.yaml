@@ -8,7 +8,7 @@
       av_device_format: "YUV422P"
       image_width: 1472
       image_height: 736
-      camera_name: "test_camera_kaka"
+      camera_name: "insta360_air"
       camera_info_url: "package://usb_cam/config/camera_info.yaml"
       brightness: -1
       contrast: -1
