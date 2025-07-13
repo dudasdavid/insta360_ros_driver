@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="equirectangular" default="true"/>
+    <arg name="equirectangular_config" default="$(find-pkg-share insta360_ros_driver)/config/equirectangular.yaml"/>
+
+    <!-- Creates Equirectangular Images -->
+    <node if="$(var equirectangular)" pkg="insta360_ros_driver" exec="equirectangular_cpp" name="equirectangular_node" output="screen">
+        <param from="$(var equirectangular_config)" />
+    </node>
+
+</launch>
