@@ -3,6 +3,7 @@
 
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/image.hpp>
+#include <sensor_msgs/msg/compressed_image.hpp>
 #include <cv_bridge/cv_bridge.hpp>
 #include <opencv2/opencv.hpp>
 #include <memory>
@@ -18,7 +19,7 @@ public:
 
 private:
     // Callback functions
-    void imageCallback(const sensor_msgs::msg::Image::SharedPtr msg);
+    void imageCallback(const sensor_msgs::msg::CompressedImage::SharedPtr msg);
     rcl_interfaces::msg::SetParametersResult parametersCallback(const std::vector<rclcpp::Parameter> &parameters);
     
     // Initialization functions
@@ -30,7 +31,7 @@ private:
     cv::Mat createEquirectangular(const cv::Mat& front_img, const cv::Mat& back_img);
     
     // ROS2 communication
-    rclcpp::Subscription<sensor_msgs::msg::Image>::SharedPtr dual_fisheye_sub_;
+    rclcpp::Subscription<sensor_msgs::msg::CompressedImage>::SharedPtr dual_fisheye_sub_;
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr equirect_pub_;
     
     // Parameters

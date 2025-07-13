@@ -39,10 +39,14 @@ EquirectangularNode::EquirectangularNode()
     auto qos = rclcpp::QoS(1).reliable();
     
     // Create publishers and subscribers
-    dual_fisheye_sub_ = create_subscription<sensor_msgs::msg::Image>(
-        name_ + "/dual_fisheye/image", qos,
+    //dual_fisheye_sub_ = create_subscription<sensor_msgs::msg::Image>(
+    //    name_ + "/dual_fisheye/image", qos,
+    //    std::bind(&EquirectangularNode::imageCallback, this, std::placeholders::_1));
+
+    dual_fisheye_sub_ = create_subscription<sensor_msgs::msg::CompressedImage>(
+        name_ + "/dual_fisheye/compressed", qos,
         std::bind(&EquirectangularNode::imageCallback, this, std::placeholders::_1));
-    
+
     equirect_pub_ = create_publisher<sensor_msgs::msg::Image>(
         name_ + "/equirectangular/image", qos);
 }
@@ -265,12 +269,17 @@ cv::Mat EquirectangularNode::createEquirectangular(const cv::Mat& front_img, con
 }
 
 
-void EquirectangularNode::imageCallback(const sensor_msgs::msg::Image::SharedPtr dual_fisheye_msg)
+void EquirectangularNode::imageCallback(const sensor_msgs::msg::CompressedImage::SharedPtr dual_fisheye_msg)
 {
     
     try {
-        cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(dual_fisheye_msg, "rgb8");
-        cv::Mat dual_fisheye_img = cv_ptr->image;
+        //cv_bridge::CvImagePtr cv_ptr = cv_bridge::toCvCopy(dual_fisheye_msg, "rgb8");
+        //cv::Mat dual_fisheye_img = cv_ptr->image;
+
+        // Convert compressed image data to OpenCV Mat
+        cv::Mat compressed_image(dual_fisheye_msg->data);
+        cv::Mat dual_fisheye_img = cv::imdecode(compressed_image, cv::IMREAD_COLOR);
+        cv::cvtColor(dual_fisheye_img, dual_fisheye_img, cv::COLOR_BGR2RGB);
         
         int img_height = dual_fisheye_img.rows;
         int img_width_full = dual_fisheye_img.cols;
