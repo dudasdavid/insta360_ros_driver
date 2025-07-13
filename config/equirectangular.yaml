@@ -1,5 +1,6 @@
 equirectangular_node:
   ros__parameters:
+    name: insta360_air
     cx_offset: 0.0
     cy_offset: 0.0
     crop_size: 731

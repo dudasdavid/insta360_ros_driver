@@ -20,6 +20,7 @@ EquirectangularNode::EquirectangularNode()
     declare_parameter("gpu", true);
     declare_parameter("out_width", 1920);
     declare_parameter("out_height", 960);
+    declare_parameter("name", "camera_1");
     
     // Load parameters
     loadParameters();
@@ -39,11 +40,11 @@ EquirectangularNode::EquirectangularNode()
     
     // Create publishers and subscribers
     dual_fisheye_sub_ = create_subscription<sensor_msgs::msg::Image>(
-        "/dual_fisheye/image", qos,
+        name_ + "/dual_fisheye/image", qos,
         std::bind(&EquirectangularNode::imageCallback, this, std::placeholders::_1));
     
     equirect_pub_ = create_publisher<sensor_msgs::msg::Image>(
-        "/equirectangular/image", qos);
+        name_ + "/equirectangular/image", qos);
 }
 
 EquirectangularNode::~EquirectangularNode()
@@ -59,6 +60,7 @@ void EquirectangularNode::loadParameters()
         out_width_ = get_parameter("out_width").as_int();
         out_height_ = get_parameter("out_height").as_int();
         gpu_enabled_ = get_parameter("gpu").as_bool();
+        name_ = get_parameter("name").as_string();
         
         auto translation = get_parameter("translation").as_double_array();
         tx_ = translation[0];
@@ -71,6 +73,7 @@ void EquirectangularNode::loadParameters()
         yaw_ = rotation_deg[2] * M_PI / 180.0;
         
         RCLCPP_INFO(get_logger(), "Loaded parameters from ROS parameter server");
+        RCLCPP_INFO(get_logger(), "  Camera name: %s", name_.c_str());
         RCLCPP_INFO(get_logger(), "  Crop size: %d", crop_size_);
         RCLCPP_INFO(get_logger(), "  Center offset: (%.1f, %.1f)", cx_offset_, cy_offset_);
         RCLCPP_INFO(get_logger(), "  Translation: [%.3f, %.3f, %.3f]", tx_, ty_, tz_);

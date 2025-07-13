@@ -8,6 +8,7 @@
 #include <memory>
 #include <mutex>
 #include <atomic>
+#include <string>
 
 class EquirectangularNode : public rclcpp::Node
 {
@@ -41,6 +42,7 @@ private:
     bool gpu_enabled_;
     int out_width_;
     int out_height_;
+    std::string name_;
     
     // Camera parameters
     double cx_, cy_;

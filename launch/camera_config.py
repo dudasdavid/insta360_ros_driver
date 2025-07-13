@@ -55,12 +55,12 @@ class CameraConfig(BaseModel):
         if name and not remappings:
             # Automatically set remappings if name is set
             remappings = [
-                #('image_raw', f'{name}/image_raw'),
-                ('image_raw', '/dual_fisheye/image'),
-                ('image_raw/compressed', f'{name}/compressed'),
-                ('image_raw/compressedDepth', f'{name}/compressedDepth'),
-                ('image_raw/theora', f'{name}/image_raw/theora'),
-                ('camera_info', f'{name}/camera_info'),
+                ('image_raw', f'{name}/dual_fisheye/image'),
+                ('image_raw/compressed', f'{name}/dual_fisheye/compressed'),
+                ('image_raw/compressedDepth', f'{name}/dual_fisheye/compressedDepth'),
+                ('image_raw/theora', f'{name}/dual_fisheye/theora'),
+                ('image_raw/zstd', f'{name}/dual_fisheye/zstd'),
+                ('camera_info', f'{name}/dual_fisheye/camera_info'),
             ]
         values['remappings'] = remappings
         return values
