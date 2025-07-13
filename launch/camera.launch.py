@@ -87,8 +87,24 @@ def generate_launch_description():
         output='screen'
     )
 
+    jpeg_compressed_image = Node(
+        package='image_transport',
+        executable='republish',
+        name='equirectangular_jpeg',
+        arguments=['raw', 'compressed'],
+        remappings=[
+            ('in', '/insta360_air/equirectangular/image'),
+            ('out/compressed', '/insta360_air/equirectangular/compressed')
+        ],
+        parameters=[
+            {'use_sim_time': False},
+            {'out.compressed.jpeg_quality': 55}
+        ],
+        output='screen'
+    )
 
     ld.add_action(camera_group)
     ld.add_action(equirectangular_launch)
     ld.add_action(set_jpeg_quality)
+    ld.add_action(jpeg_compressed_image)
     return ld
