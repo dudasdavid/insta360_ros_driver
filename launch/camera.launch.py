@@ -106,5 +106,5 @@ def generate_launch_description():
     ld.add_action(camera_group)
     ld.add_action(equirectangular_launch)
     ld.add_action(set_jpeg_quality)
-    ld.add_action(jpeg_compressed_image)
+    #ld.add_action(jpeg_compressed_image)
     return ld
