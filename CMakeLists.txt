@@ -40,37 +40,37 @@ install(
   DESTINATION share/${PROJECT_NAME}
 )
 
-add_executable(${PROJECT_NAME} src/main.cpp)
-ament_target_dependencies(${PROJECT_NAME}
-  rclcpp
-  camera_info_manager
-  cv_bridge
-  image_transport
-  std_msgs
-  std_srvs
-  OpenCV
-)
-target_link_libraries(${PROJECT_NAME} CameraSDK  ${OpenCV_LIBRARIES} ${AVCODEC_LIBRARIES} ${AVFORMAT_LIBRARIES} ${AVUTIL_LIBRARIES} ${SWSCALE_LIBRARIES})
+#add_executable(${PROJECT_NAME} src/main.cpp)
+#ament_target_dependencies(${PROJECT_NAME}
+#  rclcpp
+#  camera_info_manager
+#  cv_bridge
+#  image_transport
+#  std_msgs
+#  std_srvs
+#  OpenCV
+#)
+#target_link_libraries(${PROJECT_NAME} CameraSDK  ${OpenCV_LIBRARIES} ${AVCODEC_LIBRARIES} ${AVFORMAT_LIBRARIES} ${AVUTIL_LIBRARIES} ${SWSCALE_LIBRARIES})
 
-install(TARGETS ${PROJECT_NAME}
-  DESTINATION lib/${PROJECT_NAME}
-)
+#install(TARGETS ${PROJECT_NAME}
+#  DESTINATION lib/${PROJECT_NAME}
+#)
 
-add_executable(decoder src/decoder.cpp)
-ament_target_dependencies(decoder
-  rclcpp
-  camera_info_manager
-  cv_bridge
-  image_transport
-  std_msgs
-  std_srvs
-  OpenCV
-)
-target_link_libraries(decoder CameraSDK  ${OpenCV_LIBRARIES} ${AVCODEC_LIBRARIES} ${AVFORMAT_LIBRARIES} ${AVUTIL_LIBRARIES} ${SWSCALE_LIBRARIES})
+#add_executable(decoder src/decoder.cpp)
+#ament_target_dependencies(decoder
+#  rclcpp
+#  camera_info_manager
+#  cv_bridge
+#  image_transport
+#  std_msgs
+#  std_srvs
+#  OpenCV
+#)
+#target_link_libraries(decoder CameraSDK  ${OpenCV_LIBRARIES} ${AVCODEC_LIBRARIES} ${AVFORMAT_LIBRARIES} ${AVUTIL_LIBRARIES} ${SWSCALE_LIBRARIES})
 
-install(TARGETS decoder
-  DESTINATION lib/${PROJECT_NAME}
-)
+#install(TARGETS decoder
+#  DESTINATION lib/${PROJECT_NAME}
+#)
 
 # Add C++ equirectangular node
 add_executable(equirectangular_cpp src/equirectangular.cpp)
