@@ -42,7 +42,7 @@ sys.path.append(dir_path)
 from camera_config import CameraConfig, USB_CAM_DIR  # noqa: E402
 
 from launch import LaunchDescription  # noqa: E402
-from launch.actions import GroupAction, IncludeLaunchDescription  # noqa: E402
+from launch.actions import GroupAction, IncludeLaunchDescription, ExecuteProcess  # noqa: E402
 from launch_ros.actions import Node  # noqa: E402
 from launch.launch_description_sources import FrontendLaunchDescriptionSource
 
@@ -82,6 +82,13 @@ def generate_launch_description():
         ),
     )
 
+    set_jpeg_quality = ExecuteProcess(
+        cmd=['ros2', 'param', 'set', '/insta360_air', 'image_raw.compressed.jpeg_quality', '70'],
+        output='screen'
+    )
+
+
     ld.add_action(camera_group)
     ld.add_action(equirectangular_launch)
+    ld.add_action(set_jpeg_quality)
     return ld
