@@ -20,6 +20,7 @@ EquirectangularNode::EquirectangularNode()
     declare_parameter("gpu", true);
     declare_parameter("out_width", 1920);
     declare_parameter("out_height", 960);
+    declare_parameter("jpeg_quality", 50);
     declare_parameter("name", "camera_1");
     
     // Load parameters
@@ -49,6 +50,9 @@ EquirectangularNode::EquirectangularNode()
 
     equirect_pub_ = create_publisher<sensor_msgs::msg::Image>(
         name_ + "/equirectangular/image", qos);
+
+    equirect_compressed_pub_ = create_publisher<sensor_msgs::msg::CompressedImage>(
+        name_ + "/equirectangular/compressed", qos);
 }
 
 EquirectangularNode::~EquirectangularNode()
@@ -64,6 +68,7 @@ void EquirectangularNode::loadParameters()
         out_width_ = get_parameter("out_width").as_int();
         out_height_ = get_parameter("out_height").as_int();
         gpu_enabled_ = get_parameter("gpu").as_bool();
+        jpeg_quality_ = get_parameter("jpeg_quality").as_int();
         name_ = get_parameter("name").as_string();
         
         auto translation = get_parameter("translation").as_double_array();
@@ -333,6 +338,21 @@ void EquirectangularNode::imageCallback(const sensor_msgs::msg::CompressedImage:
         out_msg.encoding = "rgb8";
         out_msg.image = equirect_img;
         equirect_pub_->publish(*out_msg.toImageMsg());
+
+        // Compressed image
+        sensor_msgs::msg::CompressedImage compressed_msg;
+        compressed_msg.header = dual_fisheye_msg->header;
+        compressed_msg.format = "jpeg";
+        cv::Mat equirect_rgb_image;
+        cv::cvtColor(equirect_img, equirect_rgb_image, cv::COLOR_BGR2RGB);
+
+        std::vector<uchar> compressed_data;
+        //cv::imencode(".jpg", equirect_img, compressed_data);
+        std::vector<int> params = {cv::IMWRITE_JPEG_QUALITY, jpeg_quality_};
+        cv::imencode(".jpg", equirect_rgb_image, compressed_data, params);
+        compressed_msg.data = std::move(compressed_data);
+
+        equirect_compressed_pub_->publish(compressed_msg);
         
         auto process_time = (now() - start_time).seconds();
         RCLCPP_DEBUG(get_logger(), "Processing time: %.3f seconds", process_time);

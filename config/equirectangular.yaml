@@ -9,4 +9,5 @@ equirectangular_node:
     gpu: True
     out_width: 1920
     out_height: 960
+    jpeg_quality: 50
     

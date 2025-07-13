@@ -33,7 +33,8 @@ private:
     // ROS2 communication
     rclcpp::Subscription<sensor_msgs::msg::CompressedImage>::SharedPtr dual_fisheye_sub_;
     rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr equirect_pub_;
-    
+    rclcpp::Publisher<sensor_msgs::msg::CompressedImage>::SharedPtr equirect_compressed_pub_;
+
     // Parameters
     double cx_offset_;
     double cy_offset_;
@@ -43,6 +44,7 @@ private:
     bool gpu_enabled_;
     int out_width_;
     int out_height_;
+    int jpeg_quality_;
     std::string name_;
     
     // Camera parameters
