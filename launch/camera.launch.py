@@ -42,9 +42,9 @@ sys.path.append(dir_path)
 from camera_config import CameraConfig, USB_CAM_DIR  # noqa: E402
 
 from launch import LaunchDescription  # noqa: E402
-from launch.actions import GroupAction  # noqa: E402
+from launch.actions import GroupAction, IncludeLaunchDescription  # noqa: E402
 from launch_ros.actions import Node  # noqa: E402
-
+from launch.launch_description_sources import FrontendLaunchDescriptionSource
 
 CAMERAS = []
 CAMERAS.append(
@@ -76,5 +76,12 @@ def generate_launch_description():
 
     camera_group = GroupAction(camera_nodes)
 
+    equirectangular_launch = IncludeLaunchDescription(
+        FrontendLaunchDescriptionSource(
+            os.path.join(USB_CAM_DIR, 'launch', 'equirectangular.launch.xml'),
+        ),
+    )
+
     ld.add_action(camera_group)
+    ld.add_action(equirectangular_launch)
     return ld
