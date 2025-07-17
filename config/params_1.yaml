@@ -1,13 +1,13 @@
 /**:
     ros__parameters:
-      video_device: "/dev/video5"
+      video_device: "/dev/video2"
       framerate: 30.0
       io_method: "mmap"
       frame_id: "camera"
       pixel_format: "mjpeg2rgb"  # see usb_cam/supported_formats for list of supported formats
       av_device_format: "YUV422P"
-      image_width: 1472
-      image_height: 736
+      image_width: 3008
+      image_height: 1504
       camera_name: "insta360_air"
       camera_info_url: "package://usb_cam/config/camera_info.yaml"
       brightness: -1

@@ -3,11 +3,11 @@ equirectangular_node:
     name: insta360_air
     cx_offset: 0.0
     cy_offset: 0.0
-    crop_size: 731
-    translation: [0.006, 0.01, -0.249]
-    rotation_deg: [0.0, 0.0, 0.0]
+    crop_size: 1497
+    translation: [-0.021, -0.002, -0.261]
+    rotation_deg: [-0.5, -0.5, -0.5]
     gpu: True
-    out_width: 1920
-    out_height: 960
-    jpeg_quality: 50
+    out_width: 2560
+    out_height: 1280
+    jpeg_quality: 90
     
